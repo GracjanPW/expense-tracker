@@ -5,8 +5,11 @@ export async function middleware(req: NextRequest) {
   const {nextUrl} = req;
   try {
     const session = await auth();
-    console.log('session:', session);
-    console.log('url:', nextUrl);
+    // console.log('session:', session);
+    // console.log('url:', nextUrl);
+    if (nextUrl.pathname.startsWith('/api/auth')) {
+      return NextResponse.next();
+    }
     if (!session && !['/'].includes(nextUrl.pathname)) {
       return NextResponse.redirect(new URL('/',nextUrl.origin).toString()); 
     }
